@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Web_ProjectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="book">
+          <Key>
+            <PropertyRef Name="bookID" />
+          </Key>
+          <Property Name="bookID" Type="int" Nullable="false" />
+          <Property Name="bookName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="bookPublisher" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="bookPublishYear" Type="int" Nullable="false" />
+          <Property Name="bookCategory" Type="int" Nullable="false" />
+          <Property Name="bookPrice" Type="int" Nullable="false" />
+          <Property Name="quantityAvailable" Type="int" Nullable="false" />
+          <Property Name="arrivalDate" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="bookType">
+          <Key>
+            <PropertyRef Name="bookTypeID" />
+          </Key>
+          <Property Name="bookTypeID" Type="int" Nullable="false" />
+          <Property Name="bookTypeName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="orderID" />
+          </Key>
+          <Property Name="orderID" Type="int" Nullable="false" />
+          <Property Name="customerID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="orderHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="orderID" Type="int" Nullable="false" />
+          <Property Name="bookID" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="date" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" Nullable="false" />
+          <Property Name="userType" Type="int" Nullable="false" />
+          <Property Name="Fname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Lname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="userType">
+          <Key>
+            <PropertyRef Name="userTypeID" />
+          </Key>
+          <Property Name="userTypeID" Type="int" Nullable="false" />
+          <Property Name="userType" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_book_bookType">
+          <End Role="bookType" Type="Self.bookType" Multiplicity="1" />
+          <End Role="book" Type="Self.book" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="bookType">
+              <PropertyRef Name="bookTypeID" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="bookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_users">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="customerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orderHistory_book">
+          <End Role="book" Type="Self.book" Multiplicity="1" />
+          <End Role="orderHistory" Type="Self.orderHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="book">
+              <PropertyRef Name="bookID" />
+            </Principal>
+            <Dependent Role="orderHistory">
+              <PropertyRef Name="bookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orderHistory_order">
+          <End Role="order" Type="Self.order" Multiplicity="1" />
+          <End Role="orderHistory" Type="Self.orderHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="orderID" />
+            </Principal>
+            <Dependent Role="orderHistory">
+              <PropertyRef Name="orderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_userType">
+          <End Role="userType" Type="Self.userType" Multiplicity="1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userType">
+              <PropertyRef Name="userTypeID" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="userType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Web_ProjectModelStoreContainer">
+          <EntitySet Name="book" EntityType="Self.book" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bookType" EntityType="Self.bookType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orderHistory" EntityType="Self.orderHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userType" EntityType="Self.userType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_book_bookType" Association="Self.FK_book_bookType">
+            <End Role="bookType" EntitySet="bookType" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_users" Association="Self.FK_order_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orderHistory_book" Association="Self.FK_orderHistory_book">
+            <End Role="book" EntitySet="book" />
+            <End Role="orderHistory" EntitySet="orderHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orderHistory_order" Association="Self.FK_orderHistory_order">
+            <End Role="order" EntitySet="order" />
+            <End Role="orderHistory" EntitySet="orderHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_userType" Association="Self.FK_users_userType">
+            <End Role="userType" EntitySet="userType" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Web_ProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="book">
+          <Key>
+            <PropertyRef Name="bookID" />
+          </Key>
+          <Property Name="bookID" Type="Int32" Nullable="false" />
+          <Property Name="bookName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bookPublisher" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bookPublishYear" Type="Int32" Nullable="false" />
+          <Property Name="bookCategory" Type="Int32" Nullable="false" />
+          <Property Name="bookPrice" Type="Int32" Nullable="false" />
+          <Property Name="quantityAvailable" Type="Int32" Nullable="false" />
+          <Property Name="arrivalDate" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="bookType" Relationship="Self.FK_book_bookType" FromRole="book" ToRole="bookType" />
+          <NavigationProperty Name="orderHistory" Relationship="Self.FK_orderHistory_book" FromRole="book" ToRole="orderHistory" />
+        </EntityType>
+        <EntityType Name="bookType">
+          <Key>
+            <PropertyRef Name="bookTypeID" />
+          </Key>
+          <Property Name="bookTypeID" Type="Int32" Nullable="false" />
+          <Property Name="bookTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="book" Relationship="Self.FK_book_bookType" FromRole="bookType" ToRole="book" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="orderID" />
+          </Key>
+          <Property Name="orderID" Type="Int32" Nullable="false" />
+          <Property Name="customerID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="users" Relationship="Self.FK_order_users" FromRole="order" ToRole="users" />
+          <NavigationProperty Name="orderHistory" Relationship="Self.FK_orderHistory_order" FromRole="order" ToRole="orderHistory" />
+        </EntityType>
+        <EntityType Name="orderHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="orderID" Type="Int32" Nullable="false" />
+          <Property Name="bookID" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="book" Relationship="Self.FK_orderHistory_book" FromRole="orderHistory" ToRole="book" />
+          <NavigationProperty Name="order" Relationship="Self.FK_orderHistory_order" FromRole="orderHistory" ToRole="order" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" />
+          <Property Name="userType" Type="Int32" Nullable="false" />
+          <Property Name="Fname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Lname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="order" Relationship="Self.FK_order_users" FromRole="users" ToRole="order" />
+          <NavigationProperty Name="userType1" Relationship="Self.FK_users_userType" FromRole="users" ToRole="userType" />
+        </EntityType>
+        <EntityType Name="userType">
+          <Key>
+            <PropertyRef Name="userTypeID" />
+          </Key>
+          <Property Name="userTypeID" Type="Int32" Nullable="false" />
+          <Property Name="userType1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="users" Relationship="Self.FK_users_userType" FromRole="userType" ToRole="users" />
+        </EntityType>
+        <Association Name="FK_book_bookType">
+          <End Role="bookType" Type="Self.bookType" Multiplicity="1" />
+          <End Role="book" Type="Self.book" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="bookType">
+              <PropertyRef Name="bookTypeID" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="bookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orderHistory_book">
+          <End Role="book" Type="Self.book" Multiplicity="1" />
+          <End Role="orderHistory" Type="Self.orderHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="book">
+              <PropertyRef Name="bookID" />
+            </Principal>
+            <Dependent Role="orderHistory">
+              <PropertyRef Name="bookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_users">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="customerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orderHistory_order">
+          <End Role="order" Type="Self.order" Multiplicity="1" />
+          <End Role="orderHistory" Type="Self.orderHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="orderID" />
+            </Principal>
+            <Dependent Role="orderHistory">
+              <PropertyRef Name="orderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_userType">
+          <End Role="userType" Type="Self.userType" Multiplicity="1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userType">
+              <PropertyRef Name="userTypeID" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="userType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Web_ProjectEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="book" EntityType="Self.book" />
+          <EntitySet Name="bookType" EntityType="Self.bookType" />
+          <EntitySet Name="order" EntityType="Self.order" />
+          <EntitySet Name="orderHistory" EntityType="Self.orderHistory" />
+          <EntitySet Name="users" EntityType="Self.users" />
+          <EntitySet Name="userType" EntityType="Self.userType" />
+          <AssociationSet Name="FK_book_bookType" Association="Self.FK_book_bookType">
+            <End Role="bookType" EntitySet="bookType" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orderHistory_book" Association="Self.FK_orderHistory_book">
+            <End Role="book" EntitySet="book" />
+            <End Role="orderHistory" EntitySet="orderHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_users" Association="Self.FK_order_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orderHistory_order" Association="Self.FK_orderHistory_order">
+            <End Role="order" EntitySet="order" />
+            <End Role="orderHistory" EntitySet="orderHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_userType" Association="Self.FK_users_userType">
+            <End Role="userType" EntitySet="userType" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Web_ProjectModelStoreContainer" CdmEntityContainer="Web_ProjectEntities">
+          <EntitySetMapping Name="book">
+            <EntityTypeMapping TypeName="Web_ProjectModel.book">
+              <MappingFragment StoreEntitySet="book">
+                <ScalarProperty Name="bookID" ColumnName="bookID" />
+                <ScalarProperty Name="bookName" ColumnName="bookName" />
+                <ScalarProperty Name="bookPublisher" ColumnName="bookPublisher" />
+                <ScalarProperty Name="bookPublishYear" ColumnName="bookPublishYear" />
+                <ScalarProperty Name="bookCategory" ColumnName="bookCategory" />
+                <ScalarProperty Name="bookPrice" ColumnName="bookPrice" />
+                <ScalarProperty Name="quantityAvailable" ColumnName="quantityAvailable" />
+                <ScalarProperty Name="arrivalDate" ColumnName="arrivalDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bookType">
+            <EntityTypeMapping TypeName="Web_ProjectModel.bookType">
+              <MappingFragment StoreEntitySet="bookType">
+                <ScalarProperty Name="bookTypeID" ColumnName="bookTypeID" />
+                <ScalarProperty Name="bookTypeName" ColumnName="bookTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order">
+            <EntityTypeMapping TypeName="Web_ProjectModel.order">
+              <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
+                <ScalarProperty Name="customerID" ColumnName="customerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orderHistory">
+            <EntityTypeMapping TypeName="Web_ProjectModel.orderHistory">
+              <MappingFragment StoreEntitySet="orderHistory">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="orderID" ColumnName="orderID" />
+                <ScalarProperty Name="bookID" ColumnName="bookID" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="Web_ProjectModel.users">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userType" ColumnName="userType" />
+                <ScalarProperty Name="Fname" ColumnName="Fname" />
+                <ScalarProperty Name="Lname" ColumnName="Lname" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userType">
+            <EntityTypeMapping TypeName="Web_ProjectModel.userType">
+              <MappingFragment StoreEntitySet="userType">
+                <ScalarProperty Name="userTypeID" ColumnName="userTypeID" />
+                <ScalarProperty Name="userType1" ColumnName="userType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

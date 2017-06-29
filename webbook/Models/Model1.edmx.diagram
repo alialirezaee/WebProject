@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9f5917e7190843f889d8fe84e4be4d94" Name="Diagram1">
+        <EntityTypeShape EntityType="Web_ProjectModel.book" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Web_ProjectModel.bookType" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Web_ProjectModel.order" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Web_ProjectModel.orderHistory" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Web_ProjectModel.users" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Web_ProjectModel.userType" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <AssociationConnector Association="Web_ProjectModel.FK_book_bookType" ManuallyRouted="false" />
+        <AssociationConnector Association="Web_ProjectModel.FK_orderHistory_book" ManuallyRouted="false" />
+        <AssociationConnector Association="Web_ProjectModel.FK_order_users" ManuallyRouted="false" />
+        <AssociationConnector Association="Web_ProjectModel.FK_orderHistory_order" ManuallyRouted="false" />
+        <AssociationConnector Association="Web_ProjectModel.FK_users_userType" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
